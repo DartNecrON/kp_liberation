@@ -16,6 +16,16 @@ private _idact_sectorstorage = -1;
 private _idact_supplyfacility = -1;
 private _idact_ammofacility = -1;
 private _idact_fuelfacility = -1;
+private _idact_cleanup = -1;
+private _idact_dlc288520 = -1;
+private _idact_dlc304380 = -1;
+private _idact_dlc571710 = -1;
+private _idact_dlc601670 = -1;
+private _idact_parachute = -1;
+private _idact_eject = -1;
+private _idact_holster = -1;
+private _idact_unholster = -1;
+private _idact_cleanup = -1;
 private _distfob = (GRLIB_fob_range * 0.8);
 private _distarsenal = 5;
 private _distbuildfob = 10;
@@ -272,6 +282,105 @@ while {true} do {
 			_idact_zeus = -1;
 		};
 	};
+	//LUL WHAT DLC???
+if !(288520 in getDLCs 1) then {
+	  if (_idact_dlc288520 == -1) then {
+	    _idact_dlc288520 = player addAction ["<t color='#00FFFF'>Get in as Driver</t>", "scripts\shared\moveInDriver.sqf", [], 6, true, true, "", "cursorTarget isKindOf 'Kart_01_Base_F' && player distance cursorTarget < 3.4 && isNull driver cursorTarget"];
+	  };
+} else {
+	    if (_idact_dlc288520 != -1) then {
+	      player removeAction _idact_dlc288520;
+	      _idact_dlc288520 = -1;
+	    };
+	};
+
+if !(304380 in getDLCs 1) then {
+	  if (_idact_dlc304380 == -1) then {
+	    _idact_dlc304380 = player addAction ["<t color='#00FFFF'>Get in as Driver</t>", "scripts\shared\moveInDriver.sqf", [], 6, true, true, "", "cursorTarget isKindOf 'O_Heli_Transport_04_F'||'B_Heli_Transport_03_unarmed_F' && player distance cursorTarget < 10 && isNull driver cursorTarget"];
+	  };
+} else {
+	    if (_idact_dlc304380 != -1) then {
+	      player removeAction _idact_dlc304380;
+	      _idact_dlc304380 = -1;
+	    };
+};
+
+if !(571710 in getDLCs 1) then {
+	  if (_idact_dlc571710 == -1) then {
+	    _idact_dlc571710 = player addAction ["<t color='#00FFFF'>Get in as Driver</t>", "scripts\shared\moveInDriver.sqf", [], 6, true, true, "", "cursorTarget isKindOf 'C_Van_02_medevac_F'||'C_Van_02_vehicle_F'||'C_Van_02_service_F'||'C_Van_02_transport_F' && player distance cursorTarget < 10 && isNull driver cursorTarget"];
+	  };
+} else {
+	    if (_idact_dlc571710 != -1) then {
+	      player removeAction _idact_dlc571710;
+	      _idact_dlc571710 = -1;
+	    };
+};
+
+if !(601670 in getDLCs 1) then {
+	  if (_idact_dlc601670 == -1) then {
+	    _idact_dlc601670 = player addAction ["<t color='#00FFFF'>Get in as Driver</t>", "scripts\shared\moveInDriver.sqf", [], 6, true, true, "", "cursorTarget isKindOf 'I_Plane_Fighter_04_F'||'B_Plane_Fighter_01_F'||'B_Plane_Fighter_01_Stealth_F'||'O_Plane_Fighter_02_F' && player distance cursorTarget < 10 && isNull driver cursorTarget"];
+	  };
+} else {
+	    if (_idact_dlc601670 != -1) then {
+	      player removeAction _idact_dlc601670;
+	      _idact_dlc601670 = -1;
+	    };
+};
+
+if (alive player && vehicle player == player) then {
+	if (_idact_parachute == -1) then {
+	  _idact_parachute = player addAction ["<t color='#2E9AFE'>Parachute</t>", "scripts\shared\para.sqf", nil, 2, true, true, "", "vehicle player == player && getpos player select 2 >30;"];
+	};
+} else {
+	if (_idact_parachute != -1) then {
+	  player removeAction _idact_parachute;
+	  _idact_parachute = -1;
+	};
+};
+
+if (alive player) then {
+	if (_idact_eject == -1) then {
+	  _idact_eject = player addAction ["<t color='#FF0000'>Emergency eject</t>", "scripts\shared\forceEject.sqf", nil, 19, false, true, "", "vehicle player isKindOf 'Air'"];
+	};
+} else {
+	if (_idact_eject != -1) then {
+	  player removeAction _idact_eject;
+	  _idact_eject = -1;
+	};
+};
+
+if (alive player && vehicle player == player) then {
+	if (_idact_holster == -1) then {
+	  _idact_holster = player addAction ["<t color='#FF0000'>Holster</t>", "player action ['SwitchWeapon', player, player, 100];", nil, -11, false, false, "", "currentWeapon player != '' && vehicle player == player"];
+	};
+} else {
+	if (_idact_holster != -1) then {
+	  player removeAction _idact_holster;
+	  _idact_holster = -1;
+	};
+};
+
+if (alive player && vehicle player == player) then {
+	if (_idact_unholster == -1) then {
+	  _idact_unholster = player addAction ["<t color='#FF0000'>UnHolster</t>", "player action ['SwitchWeapon', player, player, 0];", nil, -11, false, false, "", "currentWeapon player == '' && vehicle player == player"];
+	};
+} else {
+	if (_idact_unholster != -1) then {
+	  player removeAction _idact_unholster;
+	  _idact_unholster = -1;
+	};
+};
+
+if (alive player && vehicle player == player) then {
+	if (_idact_cleanup == -1) then {
+	  _idact_cleanup = player addAction ["<t color='#FF0000'>Clean up</t>", "scripts\shared\removeRuins.sqf", nil, 2, false, false, "", "count nearestObjects [player, ['Ruins', 'CraterLong', 'CraterLong_small'], 5] > 0"];
+	};
+} else {
+	if (_idact_cleanup != -1) then {
+	  player removeAction _idact_cleanup;
+	  _idact_cleanup = -1;
+	};
+};
 
 	uiSleep 1;
 };
